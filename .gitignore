@@ -1,0 +1,72 @@
+# ===============================
+# 🔧 Python Bytecode & Artifacts
+# ===============================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+*.log
+
+# ===============================
+# 🔐 Environment Config
+# ===============================
+.env
+.env.*
+.flaskenv
+
+# ===============================
+# 📁 Instance & Local DB Files
+# ===============================
+instance/
+*.sqlite3
+*.db
+
+# ===============================
+# 📂 Static User Uploads
+# ===============================
+static/uploads/
+*.bak
+*.tmp
+
+# ===============================
+# 📦 Virtual Environments
+# ===============================
+venv/
+.venv/
+env/
+ENV/
+.Python
+
+# ===============================
+# 🐳 Docker Artifacts
+# ===============================
+*.pid
+*.pid.lock
+db-data/
+docker-compose.override.yml
+docker-compose.dev.yml
+docker-compose.prod.yml
+
+# ===============================
+# 🗃 Alembic Migration Cache
+# ===============================
+migrations/versions/*.pyc
+migrations/*.pyc
+
+# ===============================
+# 🧠 IDE & System Files
+# ===============================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===============================
+# 🛠 Miscellaneous
+# ===============================
+*.swp
+*.swo
+*.~lock.*

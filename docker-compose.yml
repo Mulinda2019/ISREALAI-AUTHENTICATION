@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: isrealai_app
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - FLASK_APP=app
+      - FLASK_ENV=production
+      - DATABASE_URL=sqlite:////app/instance/database.db
+    ports:
+      - "5000:5000"
+    volumes:
+      - db-data:/app/instance
+    labels:
+      - "com.isrealai.service=auth-app"
+
+volumes:
+  db-data:
