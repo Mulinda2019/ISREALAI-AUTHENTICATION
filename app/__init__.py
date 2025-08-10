@@ -22,13 +22,14 @@ from app.routes.profile.account import profile_bp
 from app.routes.dashboard.home import dashboard_bp
 from app.routes.subscription.plans import subscription_bp
 from app.routes.admin import admin_bp
+from app.routes.main.home import main_bp
 from app.routes.api.v1.user_api import user_api_bp
 from app.routes.api.v1.subscription_api import subscription_api_bp
 
 # Determine project root (one level above app/)
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-def create_app():
+def create_app(config_name: str | None = None):
     """
     Factory to create and configure the Flask application.
     """
@@ -53,10 +54,13 @@ def create_app():
     ])
 
     # ---------- Load configuration ----------
-    env = os.getenv("FLASK_ENV", "production").lower()
-    if env == "development":
+    config = (config_name or os.getenv("FLASK_ENV", "production")).lower()
+    if config == "development":
         app.config.from_object(DevelopmentConfig)
-    elif env == "production":
+    elif config == "testing":
+        from app.config.testing import TestingConfig
+        app.config.from_object(TestingConfig)
+    elif config == "production":
         app.config.from_object(ProductionConfig)
     else:
         app.config.from_object(BaseConfig)
@@ -84,7 +88,7 @@ def create_app():
         level=logging.INFO,
         format="[%(asctime)s] %(levelname)s in %(module)s: %(message)s"
     )
-    logging.info(f"Starting app in '{env}' mode")
+    logging.info(f"Starting app in '{config}' mode")
     logging.info(f"DEBUG={app.config.get('DEBUG')}  DATABASE_URI={app.config.get('SQLALCHEMY_DATABASE_URI')}")
 
     # ---------- Initialize extensions ----------
@@ -103,7 +107,7 @@ def create_app():
 
     # ---------- Register blueprints ----------
     for bp in (
-        auth_bp, profile_bp, dashboard_bp,
+        main_bp, auth_bp, profile_bp, dashboard_bp,
         subscription_bp, admin_bp,
         user_api_bp, subscription_api_bp
     ):

@@ -72,6 +72,10 @@ _auth_forms = [
 ]
 _register_forms(_auth_forms)
 
+# Backward compatibility alias
+RegistrationForm = RegisterForm
+__all__.append("RegistrationForm")
+
 
 # ─── Profile Forms ────────────────────────────────────────────────────────────
 _profile_forms = [
