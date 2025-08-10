@@ -3,16 +3,17 @@ from app import create_app, db
 from flask_migrate import upgrade
 import logging
 
-app = create_app()
+config_name = os.getenv("FLASK_ENV", "development")
+app = create_app(config_name)
 
 def ensure_database():
     """Create database and run migrations if needed."""
     database_uri = app.config.get("SQLALCHEMY_DATABASE_URI", "")
     if database_uri.startswith("sqlite:///"):
         db_path = database_uri.replace("sqlite:///", "")
+        os.makedirs(os.path.dirname(db_path), exist_ok=True)
         if not os.path.exists(db_path):
             logging.info(f"Database not found at {db_path}, creating new database...")
-            # Create tables directly (only if not using migrations)
             with app.app_context():
                 db.create_all()
                 logging.info("Database tables created.")
