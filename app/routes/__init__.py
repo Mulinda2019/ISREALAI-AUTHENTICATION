@@ -10,22 +10,17 @@ if not logger.handlers:
     logger.addHandler(handler)
     logger.setLevel(logging.DEBUG)
 
-def safe_render(template_name: str):
-    """
-    Safely attempt to render a template. Falls back to 'under_construction'
-    if the specified template is missing.
 
-    Args:
-        template_name (str): Name of the template to render.
+def safe_render(template_name: str, **context):
+    """Render a template, falling back to a placeholder if missing."""
 
-    Returns:
-        str: Rendered template HTML.
-    """
     try:
-        return render_template(template_name)
+        return render_template(template_name, **context)
     except TemplateNotFound:
-        logger.warning(f"Template '{template_name}' not found. Falling back to 'under_construction'.")
-        return render_template("placeholders/under_construction.html")
+        logger.warning(
+            f"Template '{template_name}' not found. Falling back to 'under_construction'."
+        )
+        return render_template("placeholders/under_construction.html", **context)
     except Exception as e:
         logger.error(f"Unexpected error rendering '{template_name}': {e}")
         raise

@@ -22,7 +22,7 @@ verify_reset_token = TokenService.confirm_reset_token
 from app.services.user.user_service import update_user_password
 from app.routes import safe_render
 
-@bp.route("/reset-password", methods=["GET", "POST"])
+@bp.route("/reset-password", methods=["GET", "POST"], endpoint="reset_password_request")
 def reset_request():
     """
     Initiates password reset by sending a secure email link.

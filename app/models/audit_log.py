@@ -26,7 +26,6 @@ class AuditLog(db.Model):
 
     # Who triggered the event (nullable for system events)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True, index=True)
-    user = db.relationship("User", backref="audit_logs")
 
     # What event occurred
     event_type = db.Column(

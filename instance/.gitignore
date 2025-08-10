@@ -1,0 +1,3 @@
+# Ignore database and other runtime files
+*
+!.gitignore

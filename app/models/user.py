@@ -16,9 +16,18 @@ class User(UserMixin, db.Model):
 
     # Authentication
     email = db.Column(db.String(120), unique=True, nullable=False, index=True)
-    username = db.Column(db.String(50), unique=True, nullable=False)
+    name = db.Column(db.String(50), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     is_email_verified = db.Column(db.Boolean, default=False)
+
+    # Alias for tests expecting 'is_verified'
+    @property
+    def is_verified(self) -> bool:
+        return self.is_email_verified
+
+    @is_verified.setter
+    def is_verified(self, value: bool) -> None:
+        self.is_email_verified = value
 
     # Profile
     full_name = db.Column(db.String(100))
@@ -70,8 +79,17 @@ class User(UserMixin, db.Model):
         return self.role.lower() == "admin"
 
     # Name resolver
+    # Backward compatibility property
+    @property
+    def username(self) -> str:
+        return self.name
+
+    @username.setter
+    def username(self, value: str) -> None:
+        self.name = value
+
     def get_full_name(self) -> str:
-        return self.full_name or self.username
+        return self.full_name or self.name
 
     def __repr__(self):
-        return f"<User {self.username} ({self.email})>"
+        return f"<User {self.name} ({self.email})>"

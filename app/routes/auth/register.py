@@ -52,7 +52,7 @@ def register():
             user = register_user(
                 email=form.email.data,
                 password=form.password.data,
-                full_name=form.full_name.data
+                full_name=form.name.data
             )
 
             # Use EmailService.send_verification_email instead of missing function

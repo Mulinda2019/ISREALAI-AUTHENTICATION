@@ -19,7 +19,8 @@ __pycache__/
 # ===============================
 # 📁 Instance & Local DB Files
 # ===============================
-instance/
+instance/*
+!instance/.gitignore
 *.sqlite3
 *.db
 
